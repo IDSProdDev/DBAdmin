@@ -25,17 +25,12 @@ class POIController {
         def POIInstance = new POI(params)
         //what i added
 
-        def url = "http://geocode.arcgis.com"
-        def path = "/arcgis/rest/services/World/GeocodeServer/find"
-        def query = [ text: POIInstance.address, f:"pjson" ]
-
-        def response = postText(url, path, query)
-        def slurper = new JsonSlurper()
-        def result = slurper.parseText(response)
-        POIInstance.x_coordinate = result.locations[0].feature.geometry.x
-        POIInstance.y_coordinate = result.locations[0].feature.geometry.y
-        POIInstance.address = result.locations[0].name
-        POIInstance.JSON = response
+         try {
+             POIInstance = esriLookup(POIInstance)
+         } catch (e){
+             throw e
+              // this will not populate the POIInstances attributes
+         }
 
 
         //what i didn't add
@@ -89,6 +84,12 @@ class POIController {
         }
 
         POIInstance.properties = params
+
+        try {
+            POIInstance = esriLookup(POIInstance)
+        } catch (e){
+
+        }
 
         if (!POIInstance.save(flush: true)) {
             render(view: "edit", model: [POIInstance: POIInstance])
@@ -147,6 +148,20 @@ class POIController {
 
     static def getText(String baseUrl, String path, query) {
         return postText(baseUrl, path, query, Method.GET)
+    }
+
+    def esriLookup(POI POIInstance) {
+        def url = "http://geocode.arcgis.com"
+        def path = "/arcgis/rest/services/World/GeocodeServer/find"
+        def query = [ text: POIInstance.address, f:"pjson" ]
+        def response = postText(url, path, query)
+        def slurper = new JsonSlurper()
+        def result = slurper.parseText(response)
+        POIInstance.x_coordinate = result.locations[0].feature.geometry.x
+        POIInstance.y_coordinate = result.locations[0].feature.geometry.y
+        POIInstance.address = result.locations[0].name
+        POIInstance.JSON = response
+        return POIInstance
     }
 }
 

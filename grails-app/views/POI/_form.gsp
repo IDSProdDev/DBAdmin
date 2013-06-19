@@ -9,3 +9,12 @@
 	</label>
 	<g:textArea name="address" required="" value="${POIInstance?.address}"/>
 </div>
+
+<div class="fieldcontain ${hasErrors(bean: POIInstance, field: 'type', 'error')} ">
+	<label for="type">
+		<g:message code="POI.type.label" default="Type" />
+		
+	</label>
+	<g:textField name="type" value="${POIInstance?.type}"/>
+</div>
+

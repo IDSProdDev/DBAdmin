@@ -24,13 +24,22 @@
 			<ol class="property-list POI">
 			
 				<g:if test="${POIInstance?.address}">
-				<li class="fieldcontain">
-					<span id="address-label" class="property-label"><g:message code="POI.address.label" default="Address" /></span>
-					
-						<span class="property-value" aria-labelledby="address-label"><g:fieldValue bean="${POIInstance}" field="address"/></span>
-					
-				</li>
-				</g:if>
+                <li class="fieldcontain">
+                    <span id="address-label" class="property-label"><g:message code="POI.address.label" default="Address" /></span>
+
+                    <span class="property-value" aria-labelledby="address-label"><g:fieldValue bean="${POIInstance}" field="address"/></span>
+
+                </li>
+            </g:if>
+
+                <g:if test="${POIInstance?.type}">
+                    <li class="fieldcontain">
+                        <span id="type-label" class="property-label"><g:message code="POI.type.label" default="Type" /></span>
+
+                        <span class="property-value" aria-labelledby="type-label"><g:fieldValue bean="${POIInstance}" field="type"/></span>
+
+                    </li>
+                </g:if>
 			
 				<g:if test="${POIInstance?.x_coordinate}">
 				<li class="fieldcontain">

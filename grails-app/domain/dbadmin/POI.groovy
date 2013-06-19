@@ -5,6 +5,8 @@ class POI {
         String x_coordinate
         String y_coordinate
         String JSON
+        String type
+
     static mapping = {
         JSON(type: "text")
     }
